@@ -21,7 +21,13 @@ public class UserService {
 		return userDao.get(vo);
 	}
 	
+	public Boolean existUser(String email) {
+		return userDao.get(email) != null;
+	}
+	
 	public void update(UserVo vo) {
 		userDao.update(vo);
 	}
+	
+	
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+		insert into board values(null, #{title }, #{contents}, #{hit}, now() as regDate, #{name}, #{userNo}, #{depth}, #{gNo}, #{oNo}, false)
+		]]>
+	</insert>
+	
+	<select id="pageSu" resultType="int">
+	<![CDATA[
+		select count(*) from board
+	]]>
+	</select>
+	
+	<select id="searchList" parameterType="map" resultType="boardvo">
+		<![CDATA[
+		  select board.no as no, board.title as title, board.contents as contents, board.hit as hit, date_format(board.reg_date, '%Y-%m-%d %H시%i분') as regDate,
+		user.name as userName, user.no as userNo, board.depth as depth, board.g_no as gNo, board.o_no as oNo, board.status as status
+        from board inner join user on user.no=board.user_no  where title like '#{search}' or contents like '#{search}' order by board.g_no desc, board.o_no asc limit #{selPage},5;
+		]]>
+	</select>
+
+	<select id="getList" parameterType="int" resultType="boardvo">
+		<![CDATA[
+		  select board.no as no, board.title as title, board.contents as contents, board.hit as hit, date_format(board.reg_date, '%Y-%m-%d %H시%i분') as regDate,
+		user.name as userName, user.no as userNo, board.depth as depth, board.g_no as gNo, board.o_no as oNo, board.status as status
+		from board inner join user on user.no=board.user_no order by board.g_no desc, board.o_no asc limit #{selPage},5;
+	    ]]>
+	</select>
+
+	<update id="delete" parameterType="map">
+		<![CDATA[
+		update board set status=true where no=#{no} and userNo=#{userNo}
+		]]>
+	</update>
+	
+</mapper>

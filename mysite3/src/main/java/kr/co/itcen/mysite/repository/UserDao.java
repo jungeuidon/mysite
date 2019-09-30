@@ -45,4 +45,9 @@ public class UserDao {
 		int count = sqlSession.update("user.update", vo);
 		return count == 1;
 	}
+
+	public Object get(String email) {
+		UserVo result = sqlSession.selectOne("user.getByEmail",email);
+		return result;
+	}
 }
