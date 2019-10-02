@@ -50,6 +50,16 @@
 		<property name="order" value="1" />
 	</bean>
 	
+	<!-- Validation -->
+	<!-- 6. MessageSource -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	   <property name="basenames">
+	      <list>
+		<value>messages/messages_ko</value>
+	      </list>
+	   </property>
+	</bean>
+		
 	
 
 	<context:annotation-config />

@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StopWatch;
 
 import kr.co.itcen.mysite.exception.UserDaoException;
 import kr.co.itcen.mysite.vo.UserVo;
@@ -20,7 +21,11 @@ public class UserDao {
 	
 	public Boolean insert(UserVo vo) throws UserDaoException{
 		int count = sqlSession.insert("user.insert", vo);
-		return count == 1;		
+		System.out.println(vo);
+		Boolean result = (count ==1);
+		
+		return result;
+		
 	}
 	
 	public UserVo get(Long no) {
