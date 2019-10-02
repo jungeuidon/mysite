@@ -14,11 +14,8 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${home }/board/write">
-					<input type = "hidden" name = "flag" value="${flag }">
 					<c:if test="${flag == 1}">
-						<input type="hidden" name="gNo" value="${boardVo.gNo }">
-						<input type="hidden" name="oNo" value="${boardVo.oNo }">
-						<input type="hidden" name="depth" value="${boardVo.depth }">
+						<input type="hidden" name="gNo" value="${vo.gNo }">
 					</c:if>
 					<table class="tbl-ex">
 						<tr>

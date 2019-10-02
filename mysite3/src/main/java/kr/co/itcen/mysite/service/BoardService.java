@@ -22,8 +22,8 @@ public class BoardService {
 		return boardDao.searchList(search, selPage);
 	}
 
-	public void insert(BoardVo vo) {
-		boardDao.insert(vo);
+	public void insert(BoardVo vo, int gno) {
+		boardDao.insert(vo, gno);
 	}
 
 	public void delete(String no, String userNo) {
@@ -33,6 +33,10 @@ public class BoardService {
 	public int getPage() {
 		int pageSu = boardDao.getPage();
 		return pageSu;
+	}
+
+	public BoardVo view(String no) {
+		return boardDao.view(no);
 	}
 	
 }

@@ -13,8 +13,8 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${home }/board&selPage=1" method="post">
-					<input type="text" id="kwd" name="search" value="">
+				<form id="search_form" action="${home }/board?selPage=1" method="post">
+					<input type="text" id="search" name="search" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -27,7 +27,7 @@
 						<th>&nbsp;</th>
 					</tr>				
 					<c:set var="count" value="${fn:length(list) }"/>
-					<c:forEach items="${list }" var="vo" varStatus="status">	
+					<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
 						<td>${vo.no }</td>
 						<td style="padding-left:${30*vo.depth-20}px;text-align:left">
@@ -36,7 +36,7 @@
 							</c:if>
 							<c:choose>
 								<c:when test="${vo.status==false}">
-									<a href="${home }/board/view&no=${vo.no }&kwd=${param.keyWord }&page=${param.page }">${vo.title }</a>							
+									<a href="${home }/board/view?no=${vo.no }&search=${search }&selPage=${selPage }">${vo.title }</a>							
 								</c:when>								
 								<c:when test="${vo.status==true}">
 									<span>삭제된 글</span>	
@@ -49,7 +49,7 @@
 						<td>
 						<c:choose>
 						<c:when test="${authUser.no==vo.userNo}">
-							<a href="${home }/board/delete&no=${vo.no }&uno=${vo.userNo}" class="del"><img src="${home }/assets/images/recycle.png"/></a>
+							<a href="${home }/board/delete?no=${vo.no }&uno=${vo.userNo}" class="del"><img src="${home }/assets/images/recycle.png"/></a>
 						</c:when>
 						</c:choose>
 						</td>

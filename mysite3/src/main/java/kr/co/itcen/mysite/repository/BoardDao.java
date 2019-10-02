@@ -17,15 +17,24 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	public List<BoardVo> getList(int selPage) {
+		selPage = (selPage-1)*5;
+		if(selPage < 0) {
+			selPage = 0;
+		}
 		List<BoardVo> result =  sqlSession.selectList("board.getList", selPage);
 		return result;
 	}
 
 	public List<BoardVo> searchList(String search, int selPage) {
+		
 		search = "%" + search + "%";
 		
-		Map<String, Object> map = new HashMap<String, Object>();
 		selPage = (selPage-1)*5;
+		if(selPage < 0) {
+			selPage = 0;
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("search", search);
 		map.put("selPage", selPage);
@@ -34,9 +43,23 @@ public class BoardDao {
 		return result;
 	}
 
-	public Boolean insert(BoardVo vo) {
+	public Boolean insert(BoardVo vo, int gno) {
+		
+		
+		int maxGno = sqlSession.selectOne("board.maxGno");
+		int gNo =  maxGno + 1;
+		
+		if(vo.getgNo()!=0 && vo.getgNo()==gno) {
+			vo.setoNo(vo.getoNo()+1);
+			System.out.println("BoardDao vo.getoNo() + 1 : " +vo.getoNo());
+			vo.setDepth(vo.getoNo());
+		}
+		
+		vo.setgNo(gNo);	
+		
 		int cnt = sqlSession.insert("board.insert", vo);
-		return cnt ==1;
+		
+		return cnt == 1;
 	}
 	
 //	public Boolean delete(BoardVo vo) {
@@ -63,5 +86,12 @@ public class BoardDao {
 		if(tot % pList >0) pageSu++;
 			
 		return pageSu;
+	}
+
+	public BoardVo view(String no) {
+		
+		 BoardVo result = sqlSession.selectOne("board.view", no);
+		 System.out.println(result);
+		return result;
 	}
 }

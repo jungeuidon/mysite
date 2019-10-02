@@ -3,6 +3,9 @@ package kr.co.itcen.mysite.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.itcen.mysite.service.BoardService;
 import kr.co.itcen.mysite.vo.BoardVo;
+import kr.co.itcen.mysite.vo.UserVo;
 
 @Controller
 @RequestMapping("/board")
@@ -26,9 +30,7 @@ public class BoardController {
 			@RequestParam(value="search", required=false) String search,
 			@RequestParam(value="selPage", required=true, defaultValue="1") int selPage, Model model) {
 			
-			System.out.println(selPage);
-			selPage = (selPage-1)*5;
-			System.out.println("selPage - 1 :" + selPage);
+
 			
 			List<BoardVo> list = boardService.getList(selPage);
 			
@@ -39,7 +41,8 @@ public class BoardController {
 			//페이지
 			int pageSu = boardService.getPage();
 			model.addAttribute("pageSu", pageSu);
-			
+			model.addAttribute("search", search);
+			model.addAttribute("selPage", selPage);
 			model.addAttribute("list", list);
 			
 			
@@ -48,14 +51,23 @@ public class BoardController {
 	
 	@RequestMapping(value="write", method=RequestMethod.GET)
 	public String insert() {
+		
 		return "board/write";
 	}
 	
+	
 	@RequestMapping(value="write", method=RequestMethod.POST)
-	public String insert(@ModelAttribute BoardVo vo, Model model) {
+	public String insert(@ModelAttribute BoardVo vo, Model model,
+						@RequestParam(value="gNo", required=false, defaultValue="0")int gNo,
+						HttpServletRequest request) {
 		
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+		vo.setUserNo(authUser.getNo().intValue());
 		model.addAttribute("flag", 1);
-		boardService.insert(vo);
+		System.out.println("controller :  " + gNo);
+		boardService.insert(vo, gNo);
 		
 		return "redirect:/board";
 	}
@@ -67,5 +79,33 @@ public class BoardController {
 		boardService.delete(no, uno);
 		
 		return "redirect:/board";
+	}
+	
+	@RequestMapping(value="view", method=RequestMethod.GET)
+	public String view(@RequestParam(value="no", required=false)String no,
+						@RequestParam(value="search", required=false)String search,
+						@RequestParam(value="selPage", required=true)int selPage,
+						Model model) {
+
+		BoardVo vo = boardService.view(no);
+		System.out.println("controller : " + vo);
+		
+		model.addAttribute("search", search);
+		model.addAttribute("selPage", selPage);
+		
+		model.addAttribute("vo", vo);
+		
+		return "board/view";
+	}
+	
+	@RequestMapping(value="modify", method=RequestMethod.GET)
+	public String modify(@RequestParam(value="no", required=false)String no,
+						Model model) {
+
+		BoardVo vo = boardService.view(no);
+		
+		model.addAttribute("vo", vo);
+		
+		return "board/modify";
 	}
 }
