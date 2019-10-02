@@ -29,7 +29,7 @@
 					<c:set var="count" value="${fn:length(list) }"/>
 					<c:forEach items="${list }" var="vo" varStatus="status">	
 					<tr>
-						<td>${count-status.index }</td>
+						<td>${vo.no }</td>
 						<td style="padding-left:${30*vo.depth-20}px;text-align:left">
 							<c:if test="${vo.depth > 0 }">
 								<img src="${home }/assets/images/reply.png"/>
@@ -61,7 +61,7 @@
 				<div class="pager">
 					<ul>
 						<c:forEach var="selPage" begin="1" end="${pageSu }" step="1" >
-						<li><a href="${home }/board&selPage=${selPage}">${selPage}</a></li>
+						<li><a href="${home }/board?selPage=${selPage}">${selPage}</a></li>
 						</c:forEach>
 						<!-- <li><a href="${home }/board?a=list&page=${page}">◀</a></li> 
 						<li><a href="">1</a></li>

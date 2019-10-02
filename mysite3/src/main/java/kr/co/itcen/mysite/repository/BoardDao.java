@@ -25,6 +25,7 @@ public class BoardDao {
 		search = "%" + search + "%";
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		selPage = (selPage-1)*5;
 		
 		map.put("search", search);
 		map.put("selPage", selPage);
@@ -57,7 +58,7 @@ public class BoardDao {
 		int pageSu; //전체 페이지 수
 		
 		tot = sqlSession.selectOne("board.pageSu"); 
-
+		
 		pageSu = tot / pList;
 		if(tot % pList >0) pageSu++;
 			

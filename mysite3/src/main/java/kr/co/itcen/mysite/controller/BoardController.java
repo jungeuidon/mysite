@@ -24,9 +24,11 @@ public class BoardController {
 	@RequestMapping("")
 	public String board(
 			@RequestParam(value="search", required=false) String search,
-			@RequestParam(value="selPage", required=true, defaultValue="1")int selPage, Model model) {
+			@RequestParam(value="selPage", required=true, defaultValue="1") int selPage, Model model) {
 			
-			selPage = selPage-1;
+			System.out.println(selPage);
+			selPage = (selPage-1)*5;
+			System.out.println("selPage - 1 :" + selPage);
 			
 			List<BoardVo> list = boardService.getList(selPage);
 			
