@@ -23,6 +23,8 @@ public class UserVo {
 	private String gender;
 	private String joinDate;
 	
+	private String role;
+	
 //	private String[] genders = {"male", "female"};
 	
 	public Long getNo() {
@@ -65,12 +67,17 @@ public class UserVo {
 	public String[] getGenders() {
 		return new String[]{"남자", "여자"};
 	}
-
 	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	
 	@Override
 	public String toString() {
 		return "UserVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
-				+ gender + ", joinDate=" + joinDate + "]";
+				+ gender + ", joinDate=" + joinDate + ", role=" + role + "]";
 	}
 }

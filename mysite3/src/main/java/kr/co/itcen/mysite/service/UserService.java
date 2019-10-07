@@ -28,6 +28,11 @@ public class UserService {
 	public void update(UserVo vo) {
 		userDao.update(vo);
 	}
+
+	public UserVo getUser(Long no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
