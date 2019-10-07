@@ -93,14 +93,16 @@ public class UserController {
 //	@Auth(role=Auth.Role.ADMIN)
 	@Auth("USER")
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(@AuthUser UserVo authUser, @ModelAttribute UserVo vo,  Model model/*, HttpSession session*/) {
-//		UserVo authUser = (UserVo)session.getAttribute("authUser");   //HttpSession 사용시
+	public String update(@ModelAttribute @AuthUser UserVo authUser, Model model/*, HttpSession session, @ModelAttribute UserVo vo*/) {
 		
 		Long no = authUser.getNo();
-		UserVo userVo = userService.getUser(no);
+		authUser = userService.getUser(authUser.getNo());
+		System.out.println(no);
 		System.out.println(authUser);
-		model.addAttribute("userVo", userVo);
 		
+		model.addAttribute("userVo", authUser);
+		
+//		UserVo authUser = (UserVo)session.getAttribute("authUser");   //HttpSession 사용시
 //		if(authUser == null) {
 //			return "redirect:/";
 //		}

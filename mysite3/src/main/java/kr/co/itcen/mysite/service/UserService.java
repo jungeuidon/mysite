@@ -30,8 +30,7 @@ public class UserService {
 	}
 
 	public UserVo getUser(Long no) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.get(no);
 	}
 	
 	
