@@ -13,8 +13,8 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${home }/board?a=list&page=1" method="post">
-					<input type="text" id="kwd" name="search" value="">
+				<form id="search_form" action="${home }/board?selPage=1" method="post">
+					<input type="text" id="search" name="search" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -27,16 +27,16 @@
 						<th>&nbsp;</th>
 					</tr>				
 					<c:set var="count" value="${fn:length(list) }"/>
-					<c:forEach items="${list }" var="vo" varStatus="status">	
+					<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
-						<td>${vo.no}</td>
+						<td>${vo.no }</td>
 						<td style="padding-left:${30*vo.depth-20}px;text-align:left">
 							<c:if test="${vo.depth > 0 }">
 								<img src="${home }/assets/images/reply.png"/>
 							</c:if>
 							<c:choose>
 								<c:when test="${vo.status==false}">
-									<a href="${home }/board?a=view&no=${vo.no }&kwd=${param.keyWord }&page=${param.page }">${vo.title }</a>							
+									<a href="${home }/board/view?no=${vo.no }&search=${search }&selPage=${selPage }">${vo.title }</a>							
 								</c:when>								
 								<c:when test="${vo.status==true}">
 									<span>삭제된 글</span>	
@@ -49,7 +49,7 @@
 						<td>
 						<c:choose>
 						<c:when test="${authUser.no==vo.userNo}">
-							<a href="${home }/board?a=delete&no=${vo.no }&uno=${vo.userNo}" class="del"><img src="${home }/assets/images/recycle.png"/></a>
+							<a href="${home }/board/delete?no=${vo.no }&uno=${vo.userNo}" class="del"><img src="${home }/assets/images/recycle.png"/></a>
 						</c:when>
 						</c:choose>
 						</td>
@@ -60,8 +60,8 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:forEach var="selpage" begin="1" end="${pageSu }" step="1" >
-						<li><a href="${home }/board?a=list&selpage=${selpage}">${selpage}</a></li>
+						<c:forEach var="selPage" begin="1" end="${pageSu }" step="1" >
+						<li><a href="${home }/board?selPage=${selPage}">${selPage}</a></li>
 						</c:forEach>
 						<!-- <li><a href="${home }/board?a=list&page=${page}">◀</a></li> 
 						<li><a href="">1</a></li>
@@ -79,7 +79,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="bottom">
-							<a href="${home }/board?a=writeform" id="new-book">글쓰기</a>
+							<a href="${home }/board/write" id="new-book">글쓰기</a>
 						</div>
 					</c:otherwise>
 				</c:choose>
