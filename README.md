@@ -3,4 +3,4 @@
   
   mysite3(Spring MVC, XML Config)
   
-  mysite4 의 부모프로젝트(Spring MVC, Java Config1)
+  mysite4(Spring MVC, Java Config1)
